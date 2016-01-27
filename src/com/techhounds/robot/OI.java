@@ -2,7 +2,11 @@
 package com.techhounds.robot;
 
 import com.techhounds.robot.commands.DriveDashboard;
+import com.techhounds.robot.commands.IncrementShooterSpeed;
+import com.techhounds.robot.commands.SetAnglerPower;
+import com.techhounds.robot.commands.SetShooterPower;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -19,6 +23,7 @@ public class OI {
     // Joystick stick = new Joystick(port);
     // Button button = new JoystickButton(stick, buttonNumber);
     private final Joystick driver;
+    public static ControllerMap driverPad;
     
     // Another type of button you can create is a DigitalIOButton, which is
     // a button or switch hooked up to the cypress module. These are useful if
@@ -47,7 +52,34 @@ public class OI {
  
     private OI() {
         driver = new Joystick(1);
+        driverPad = new ControllerMap(driver, 0, false);
+        
     }
+    Button setAnglerPowerUp;
+    int anglerPowerUpButton = ControllerMap.Y;
+    
+    Button setAnglerPowerDown;
+    int anglerPowerDownButton = ControllerMap.A;
+    
+    Button incrementShooterSpeed;
+    int incrementShooterSpeedButton = ControllerMap.B;
+    Button zeroShooterSpeed;
+    int zeroShooterSpeedButton = ControllerMap.A;
+    public void initDriver(){
+        setAnglerPowerUp = driverPad.createButton(anglerPowerUpButton);
+        setAnglerPowerUp.whileHeld(new SetAnglerPower(.1));
+        
+        setAnglerPowerDown = driverPad.createButton(anglerPowerDownButton);
+        setAnglerPowerDown.whileHeld(new SetAnglerPower(-.1));
+        
+        incrementShooterSpeed = driverPad.createButton(incrementShooterSpeedButton);
+        incrementShooterSpeed.whenPressed(new IncrementShooterSpeed(.1));
+        
+        zeroShooterSpeed = driverPad.createButton(zeroShooterSpeedButton);
+        zeroShooterSpeed.whenPressed(new SetShooterPower(0));
+        
+    }
+    
     
     public static OI getInstance() {
         if (instance == null) {

@@ -24,6 +24,9 @@ public class ShooterSubsystem extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
+    public double getPower(){
+        return motor.get();
+    }
     
     public void setPower(double power){
         motor.set(power);
