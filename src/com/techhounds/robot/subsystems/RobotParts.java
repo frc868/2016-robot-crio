@@ -26,8 +26,14 @@ public class RobotParts {
     private static final int PWM_LEFT_MOTOR0 = 3;
     private static final int PWM_LEFT_MOTOR1 = 4;
     
+    private static final int PWM_SHOOTER_MOTOR = 0;
+    
+    private static final int PWM_ANGLER_MOTOR = 0;
+    
     private static RobotParts instance;
     private DriveSubsystem drive;
+    private ShooterSubsystem shooter;
+    private AngleAdjuster angler;
     
     private RobotParts() {
     }
@@ -37,6 +43,19 @@ public class RobotParts {
             instance = new RobotParts();
         }
         return instance;
+    }
+    public ShooterSubsystem getShooter(){
+        if(shooter == null){
+            
+            shooter = new ShooterSubsystem(createSpeedController("Shooter", "Shooter Motor", PWM_SHOOTER_MOTOR));
+        }
+        return shooter;
+    }
+    public AngleAdjuster getAngler(){
+        if(angler == null){
+            angler = new AngleAdjuster(createSpeedController("Angler", "Angle Motor", PWM_ANGLER_MOTOR));
+        }
+        return angler;
     }
     
     public DriveSubsystem getDrive() {
@@ -57,6 +76,8 @@ public class RobotParts {
         LiveWindow.addActuator(group, name, sc);
         return sc;
     }
+    
+    
     
     
     private SpeedController createVictor(String group, String name, int pwm) {
