@@ -48,7 +48,7 @@ public class DriveSubsystem extends Subsystem {
         left2.set(left);
         right0.set(right);
         right1.set(right);
-        right1.set(right);
+        right2.set(right);
     }
 
     // Put methods for controlling this subsystem
