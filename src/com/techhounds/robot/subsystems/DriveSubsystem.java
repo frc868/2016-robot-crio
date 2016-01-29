@@ -13,8 +13,10 @@ public class DriveSubsystem extends Subsystem {
 
     private final SpeedController left0;
     private final SpeedController left1;
+    private final SpeedController left2;
     private final SpeedController right0;
     private final SpeedController right1;
+    private final SpeedController right2;
     
     /** Set to true if left motors wired in reverse. */
     private static final boolean LEFT_INVERTED = false;
@@ -22,12 +24,14 @@ public class DriveSubsystem extends Subsystem {
     /** Set to true if right motors wired in reverse. */
     private static final boolean RIGHT_INVERTED = true;
 
-    DriveSubsystem(SpeedController left0, SpeedController left1, SpeedController right0, SpeedController right1) {
+    DriveSubsystem(SpeedController left0, SpeedController left1, SpeedController left2,SpeedController right0, SpeedController right1, SpeedController right2) {
         super("Drive Subsystem");
         this.left0 = left0;
         this.left1 = left1;
+        this.left2 = left2;
         this.right0 = right0;
         this.right1 = right1;
+        this.right2 = right2;
     }
     
     /**
@@ -41,7 +45,9 @@ public class DriveSubsystem extends Subsystem {
         right = RIGHT_INVERTED ? -right : right;
         left0.set(left);
         left1.set(left);
+        left2.set(left);
         right0.set(right);
+        right1.set(right);
         right1.set(right);
     }
 

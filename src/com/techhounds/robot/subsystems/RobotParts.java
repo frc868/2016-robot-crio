@@ -23,12 +23,14 @@ public class RobotParts {
     
     private static final int PWM_RIGHT_MOTOR0 = 1;
     private static final int PWM_RIGHT_MOTOR1 = 2;
+    private static final int PWM_RIGHT_MOTOR2 = 6;
     private static final int PWM_LEFT_MOTOR0 = 3;
     private static final int PWM_LEFT_MOTOR1 = 4;
+    private static final int PWM_LEFT_MOTOR2 = 5;
     
-    private static final int PWM_SHOOTER_MOTOR = 0;
+    private static final int PWM_SHOOTER_MOTOR = 10;
     
-    private static final int PWM_ANGLER_MOTOR = 0;
+    private static final int PWM_ANGLER_MOTOR = -1;
     
     private static RobotParts instance;
     private DriveSubsystem drive;
@@ -63,9 +65,11 @@ public class RobotParts {
             String group = "Drive";
             SpeedController left0 = createSpeedController(group, "Left Motor0", PWM_LEFT_MOTOR0);
             SpeedController left1 = createSpeedController(group, "Left Motor1", PWM_LEFT_MOTOR1);
+            SpeedController left2 = createSpeedController(group, "Left Motor2", PWM_LEFT_MOTOR2);
             SpeedController right0 = createSpeedController(group, "Right Motor0", PWM_RIGHT_MOTOR0);
             SpeedController right1 = createSpeedController(group, "Right Motor1", PWM_RIGHT_MOTOR1);
-            drive = new DriveSubsystem(left0, left1, right0, right1);
+            SpeedController right2 = createSpeedController(group, "Right Motor2", PWM_RIGHT_MOTOR2);
+            drive = new DriveSubsystem(left0, left1, left2, right0, right1, right2);
             SmartDashboard.putData(drive);
         }
         return drive;
