@@ -74,4 +74,14 @@ public class RobotTemplate extends IterativeRobot {
     public void testPeriodic() {
         LiveWindow.run();
     }
+
+    // TODO: Move to somewhere more appropriate
+    public static double checkRange(double speed, double min, double max) {
+        if(speed > max) {
+            return max;
+        } else if(speed < min) {
+            return min;
+        } else
+            return speed;
+    }
 }
