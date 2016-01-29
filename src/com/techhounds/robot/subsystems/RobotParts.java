@@ -5,6 +5,8 @@
  */
 package com.techhounds.robot.subsystems;
 
+import com.techhounds.robot.util.InvertableSpeedController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
@@ -32,9 +34,15 @@ public class RobotParts {
     
     private static final int PWM_ANGLER_MOTOR = -1;
     
+    private static final int PWM_SHOOTER_ANGLER_MOTOR = -1;
+    private static final boolean SHOOTER_ANGLER_IS_FLIPPED = false;
+    private static final int FWD_LIMIT_SWITCH = -1;
+    private static final int REV_LIMIT_SWITCH = -1;
+    
     private static RobotParts instance;
     private DriveSubsystem drive;
     private ShooterSubsystem shooter;
+    private ShooterAnglerSubsystem shooterAngler;
     private AngleAdjuster angler;
     
     private RobotParts() {
@@ -45,6 +53,19 @@ public class RobotParts {
             instance = new RobotParts();
         }
         return instance;
+    }
+    public ShooterAnglerSubsystem getShooterAngler() {
+        if(shooterAngler == null){
+            DigitalInput f = new DigitalInput(FWD_LIMIT_SWITCH);
+            DigitalInput r = new DigitalInput(REV_LIMIT_SWITCH);
+            Spark spark = new Spark(PWM_SHOOTER_ANGLER_MOTOR);
+            InvertableSpeedController s = new InvertableSpeedController(spark, SHOOTER_ANGLER_IS_FLIPPED);
+            shooterAngler = new ShooterAnglerSubsystem(s, f, r);
+            LiveWindow.addSensor("ShooterAnglerSubsystem", "ReverseLimit", r);
+            LiveWindow.addSensor("ShooterAnglerSubsystem", "ForwardLimit", f);
+            LiveWindow.addSensor("ShooterAnglerSubsystem", "SpeedController", spark);
+        }
+        return shooterAngler;
     }
     public ShooterSubsystem getShooter(){
         if(shooter == null){

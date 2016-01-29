@@ -5,6 +5,7 @@
  */
 package com.techhounds.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -26,25 +27,42 @@ public class ShooterAnglerSubsystem extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     
-    SpeedController spark;
-    boolean fwdLimitSwitch;
-    boolean revLimitSwitch;
-    final boolean IS_INVERTED = false;
+    private ShooterAnglerSubsystem shooterAngler;
+    private SpeedController spark;
+    private DigitalInput fwdLimitSwitch;
+    private DigitalInput revLimitSwitch;
     
-    public ShooterAnglerSubsystem(SpeedController s) {
+    public ShooterAnglerSubsystem(SpeedController s, DigitalInput f, DigitalInput r) {
         spark = s;
+        fwdLimitSwitch = f;
+        revLimitSwitch = r;
     }
     
     public double get() {
         return spark.get();
     }
     
-    public void set(double num) {
-        num = (IS_INVERTED ? -num : num);
-        spark.set(num);
+    public void safetyCheck() {
+        if(checkFwdLimitSwitch() && get() > 0) set(0);
+        if(checkRevLimitSwitch() && get() < 0) set(0);
+    }
+    
+    public void set(double power) {
+        if(checkFwdLimitSwitch() && power > 0) power = 0;
+        if(checkRevLimitSwitch() && power < 0) power = 0;
+        spark.set(power);
+    }
+    
+    public boolean checkFwdLimitSwitch() {
+        return fwdLimitSwitch.get();
+    }
+    
+    public boolean checkRevLimitSwitch() {
+        return revLimitSwitch.get();
     }
     
     public void updateSmartDashboard() {
+        safetyCheck();
         SmartDashboard.putNumber("Spark.get()", get());
     }
 
