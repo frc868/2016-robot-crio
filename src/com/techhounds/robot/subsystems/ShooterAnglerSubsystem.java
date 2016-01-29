@@ -48,6 +48,7 @@ public class ShooterAnglerSubsystem extends Subsystem {
     }
     
     public void set(double power) {
+        //checks for limit switch input and moderates output appropriately
         if(checkFwdLimitSwitch() && power > 0) power = 0;
         if(checkRevLimitSwitch() && power < 0) power = 0;
         spark.set(power);
