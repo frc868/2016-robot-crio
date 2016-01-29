@@ -1,0 +1,18 @@
+Caleb Smith
+
+Drive Train:
+ - 2 Encoders
+ - Eight wheeled (Quadrature)
+
+Shooter:
+ - Angling System
+   - 2 Limit switches
+   - 1 Encoder
+ - Shooting System
+   - 1 Encoder (Shooting wheel)
+   - Possible 1 Encoder (Loading wheel)
+   - Beam-break sensor
+
+Grabbing Arm: (Least knowledgeable about)
+ - 1 Encoder
+ - 1 Limit Switch
