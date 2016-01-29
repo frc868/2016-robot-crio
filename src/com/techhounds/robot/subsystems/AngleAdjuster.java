@@ -5,6 +5,8 @@
  */
 package com.techhounds.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -17,12 +19,16 @@ public class AngleAdjuster extends Subsystem {
     // here. Call these from Commands.
     
     public SpeedController motor;
+    public final boolean INVERTED = false;
+    Encoder encoder;
     
     public AngleAdjuster(SpeedController motor){
         this.motor = motor;
+        
     }
     
     public void setPower(double power){
+        power = INVERTED ? -power : power;
         motor.set(power);
     }
     

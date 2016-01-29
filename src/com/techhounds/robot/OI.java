@@ -65,7 +65,13 @@ public class OI {
     int incrementShooterSpeedButton = ControllerMap.B;
     Button zeroShooterSpeed;
     int zeroShooterSpeedButton = ControllerMap.A;
+    Button decrementShooterSpeed;
+    int decrementShooterButton = ControllerMap.X;
+    
+    Button setShooterToSpeed;
+    int setShooterToSpeedButton = ControllerMap.RT;
     public void initDriver(){
+        
         setAnglerPowerUp = driverPad.createButton(anglerPowerUpButton);
         setAnglerPowerUp.whileHeld(new SetAnglerPower(.1));
         
@@ -77,6 +83,13 @@ public class OI {
         
         zeroShooterSpeed = driverPad.createButton(zeroShooterSpeedButton);
         zeroShooterSpeed.whenPressed(new SetShooterPower(0));
+        
+        decrementShooterSpeed = driverPad.createButton(decrementShooterButton);
+        decrementShooterSpeed.whenPressed(new IncrementShooterSpeed(-.1));
+        
+        setShooterToSpeed = driverPad.createButton(setShooterToSpeedButton);
+        setShooterToSpeed.whenPressed(new SetShooterPower(.5));
+        
         
     }
     

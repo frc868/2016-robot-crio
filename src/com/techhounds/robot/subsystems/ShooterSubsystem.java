@@ -16,6 +16,7 @@ public class ShooterSubsystem extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     private final SpeedController motor;
+    private final boolean INVERTED = false;
     
     public ShooterSubsystem(SpeedController motor){
         this.motor = motor;
@@ -25,10 +26,12 @@ public class ShooterSubsystem extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     public double getPower(){
-        return motor.get();
+        
+        return INVERTED ? -motor.get() : motor.get();
     }
     
     public void setPower(double power){
+        power = INVERTED ? -power : power;
         motor.set(power);
     }
 }
