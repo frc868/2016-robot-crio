@@ -14,17 +14,18 @@ import edu.wpi.first.wpilibj.command.Command;
  * @author 2014 System
  */
 public class IncrementShooterSpeed extends Command {
-    double power;
+    double increment;
     ShooterSubsystem shooter;
     public IncrementShooterSpeed(double increment) {
         shooter = RobotParts.getInstance().getShooter();
-        power = increment + shooter.getPower();
+        this.increment = increment;
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        double power = increment + shooter.getPower();
         shooter.setPower(power);
     }
 

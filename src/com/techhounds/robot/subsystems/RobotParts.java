@@ -32,9 +32,9 @@ public class RobotParts {
     
     private static final int PWM_SHOOTER_MOTOR = 10;
     
-    private static final int PWM_ANGLER_MOTOR = -1;
+    //private static final int PWM_ANGLER_MOTOR = -1;
     
-    private static final int PWM_SHOOTER_ANGLER_MOTOR = -1;
+    private static final int PWM_SHOOTER_ANGLER_MOTOR = 9;
     private static final boolean SHOOTER_ANGLER_IS_FLIPPED = false;
     private static final int FWD_LIMIT_SWITCH = -1;
     private static final int REV_LIMIT_SWITCH = -1;
@@ -56,13 +56,13 @@ public class RobotParts {
     }
     public ShooterAnglerSubsystem getShooterAngler() {
         if(shooterAngler == null){
-            DigitalInput f = new DigitalInput(FWD_LIMIT_SWITCH);
-            DigitalInput r = new DigitalInput(REV_LIMIT_SWITCH);
+            //DigitalInput f = new DigitalInput(FWD_LIMIT_SWITCH);
+            //DigitalInput r = new DigitalInput(REV_LIMIT_SWITCH);
             Spark spark = new Spark(PWM_SHOOTER_ANGLER_MOTOR);
             InvertableSpeedController s = new InvertableSpeedController(spark, SHOOTER_ANGLER_IS_FLIPPED);
-            shooterAngler = new ShooterAnglerSubsystem(s, f, r);
-            LiveWindow.addSensor("ShooterAnglerSubsystem", "ReverseLimit", r);
-            LiveWindow.addSensor("ShooterAnglerSubsystem", "ForwardLimit", f);
+            shooterAngler = new ShooterAnglerSubsystem(s, null, null);
+           // LiveWindow.addSensor("ShooterAnglerSubsystem", "ReverseLimit", r);
+           // LiveWindow.addSensor("ShooterAnglerSubsystem", "ForwardLimit", f);
             LiveWindow.addSensor("ShooterAnglerSubsystem", "SpeedController", spark);
         }
         return shooterAngler;

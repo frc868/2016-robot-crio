@@ -5,6 +5,7 @@ import com.techhounds.robot.commands.DriveDashboard;
 import com.techhounds.robot.commands.IncrementShooterSpeed;
 import com.techhounds.robot.commands.SetAnglerPower;
 import com.techhounds.robot.commands.SetShooterPower;
+import com.techhounds.robot.subsystems.RobotParts;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -77,11 +78,11 @@ public class OI {
         setAnglerToZero = driverPad.createButton(setAnglerToZeroButton);
         setAnglerToZero.whenPressed(new SetAnglerPower(0));
         setAnglerPowerUp = driverPad.createButton(anglerPowerUpButton);
-        setAnglerPowerUp.whileHeld(new SetAnglerPower(.25));
+        setAnglerPowerUp.whileHeld(new SetAnglerPower(.4));
         setAnglerPowerUp.whenPressed(new SetAnglerPower(0));
         
         setAnglerPowerDown = driverPad.createButton(anglerPowerDownButton);
-        setAnglerPowerDown.whenPressed(new SetAnglerPower(-.25));
+        setAnglerPowerDown.whenPressed(new SetAnglerPower(-.4));
         setAnglerPowerDown.whenReleased(new SetAnglerPower(0));
         
         incrementShooterSpeed = driverPad.createButton(incrementShooterSpeedButton);
@@ -109,7 +110,10 @@ public class OI {
     }
 
     private void addSmartDashboardControls() {
+        SmartDashboard.putNumber("Shooter Speed", RobotParts.getInstance().getShooter().getPower());
         SmartDashboard.putData(new DriveDashboard());
+        SmartDashboard.putNumber("Shooter Angler Power", .4);
+        
     }
 
     public double getTankLeftPower() {
