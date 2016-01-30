@@ -6,21 +6,17 @@
 package com.techhounds.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  *
  * @author 2014 System
  */
-public class CollectorAnglerSubsystem extends AngleAdjuster {
+public class CollectorAnglerSubsystem extends AngleAdjustSubsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     
     public CollectorAnglerSubsystem(SpeedController s, DigitalInput f, DigitalInput r){
         super(s,f,r);
     }
-
-    
 }

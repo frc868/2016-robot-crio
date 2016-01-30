@@ -50,6 +50,12 @@ public class RobotParts {
     public static RobotParts getInstance() {
         if (instance == null) {
             instance = new RobotParts();
+            
+            /* Setup Subsystems */
+            instance.getCollectorAngler();
+            instance.getDrive();
+            instance.getShooterAngler();
+            instance.getShooter();
         }
         return instance;
     }
@@ -77,8 +83,7 @@ public class RobotParts {
         }
         return shooter;
     }
-    
-    
+   
     public DriveSubsystem getDrive() {
         if (drive == null) {
             String group = "Drive";
@@ -93,15 +98,19 @@ public class RobotParts {
         }
         return drive;
     }
+    
+    public void updateSmartDashboard() {
+        //this.getCollectorAngler().updateSmartDashboard();
+        this.getDrive().updateSmartDashboard();
+        this.getShooter().updateSmartDashboard();
+        this.getShooterAngler().updateSmartDashboard();
+    }
 
     private SpeedController createSpeedController(String group, String name, int pwm) {
         Spark sc = new Spark(pwm);
         LiveWindow.addActuator(group, name, sc);
         return sc;
     }
-    
-    
-    
     
     private SpeedController createVictor(String group, String name, int pwm) {
         Victor sc = new Victor(pwm);

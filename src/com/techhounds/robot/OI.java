@@ -88,7 +88,9 @@ public class OI {
     }
     
     public static OI getInstance() {
-        return instance == null ? instance = new OI() : instance;
+        if(instance == null)
+            instance = new OI();
+        return instance;
     }
 
     public double getTankLeftPower() {
@@ -112,7 +114,7 @@ public class OI {
     }
     
     public double getArcadeRightPower(){
-        return rangeCheck(- driverPad.getRightStickX() - driverPad.getLeftStickY());
+        return rangeCheck(-driverPad.getRightStickX() - driverPad.getLeftStickY());
         //return rangeCheck(-getPower(operator,2) - getPower(operator,3));
     }
     

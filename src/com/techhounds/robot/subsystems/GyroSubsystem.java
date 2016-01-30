@@ -5,35 +5,35 @@
  */
 package com.techhounds.robot.subsystems;
 
-import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.command.Subsystem;
+
 
 /**
  *
- * @author 2014 System
+ * @author Komodo
  */
-public class ShooterSubsystem extends Subsystem {
+public class GyroSubsystem extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-    private final SpeedController motor;
-    private final boolean INVERTED = false;
     
-    public ShooterSubsystem(SpeedController motor){
-        this.motor = motor;
-    }
+    Gyro gyro;
+
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
-    public double getPower(){
-        return INVERTED ? -motor.get() : motor.get();
+    
+    public GyroSubsystem() {
+        gyro = new Gyro(0);
     }
     
-    public void setPower(double power){
-        motor.set(INVERTED ? -power : power);
+    
+    public void resetGyro() {
+        gyro.reset();
     }
     
-    public void updateSmartDashboard() {
-        
+    public double getGyroAngle() {
+        return gyro.getAngle();
     }
 }

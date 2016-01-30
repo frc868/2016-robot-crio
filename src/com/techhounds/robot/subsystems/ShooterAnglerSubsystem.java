@@ -23,7 +23,7 @@ Shooter:
  *
  * @author Komodo
  */
-public class ShooterAnglerSubsystem extends AngleAdjuster {
+public class ShooterAnglerSubsystem extends AngleAdjustSubsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     
