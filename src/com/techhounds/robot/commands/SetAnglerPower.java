@@ -5,11 +5,9 @@
  */
 package com.techhounds.robot.commands;
 
-import com.techhounds.robot.subsystems.AngleAdjuster;
 import com.techhounds.robot.subsystems.RobotParts;
 import com.techhounds.robot.subsystems.ShooterAnglerSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *

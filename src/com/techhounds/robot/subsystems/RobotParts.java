@@ -43,7 +43,6 @@ public class RobotParts {
     private DriveSubsystem drive;
     private ShooterSubsystem shooter;
     private ShooterAnglerSubsystem shooterAngler;
-    private AngleAdjuster angler;
     
     private RobotParts() {
     }
