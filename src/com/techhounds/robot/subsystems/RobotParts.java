@@ -33,7 +33,6 @@ public class RobotParts {
     private static final int PWM_SHOOTER_MOTOR = 10;
     
     //private static final int PWM_ANGLER_MOTOR = -1;
-    
     private static final int PWM_SHOOTER_ANGLER_MOTOR = 9;
     private static final boolean SHOOTER_ANGLER_IS_FLIPPED = false;
     private static final int FWD_LIMIT_SWITCH = -1;
@@ -98,7 +97,6 @@ public class RobotParts {
         }
         return drive;
     }
-    
     public void updateSmartDashboard() {
         //this.getCollectorAngler().updateSmartDashboard();
         this.getDrive().updateSmartDashboard();
