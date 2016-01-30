@@ -120,7 +120,6 @@ public class RobotParts {
         }
         return drive;
     }
-    
     public void updateSmartDashboard() {
         this.getCollectorAngler().updateSmartDashboard();
         this.getDrive().updateSmartDashboard();
