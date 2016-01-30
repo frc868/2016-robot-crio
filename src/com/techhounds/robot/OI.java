@@ -53,6 +53,7 @@ public class OI {
     private OI() {
         driver = new Joystick(1);
         driverPad = new ControllerMap(driver, 0, false);
+        innitDriver();
         
     }
     Button setAnglerPowerUp;
@@ -64,19 +65,24 @@ public class OI {
     Button incrementShooterSpeed;
     int incrementShooterSpeedButton = ControllerMap.B;
     Button zeroShooterSpeed;
-    int zeroShooterSpeedButton = ControllerMap.A;
+    int zeroShooterSpeedButton = ControllerMap.RT;
     Button decrementShooterSpeed;
     int decrementShooterButton = ControllerMap.X;
     
     Button setShooterToSpeed;
-    int setShooterToSpeedButton = ControllerMap.RT;
-    public void initDriver(){
-        
+    int setShooterToSpeedButton = ControllerMap.RB;
+    Button setAnglerToZero;
+    int setAnglerToZeroButton = ControllerMap.LB;
+    public void innitDriver(){
+        setAnglerToZero = driverPad.createButton(setAnglerToZeroButton);
+        setAnglerToZero.whenPressed(new SetAnglerPower(0));
         setAnglerPowerUp = driverPad.createButton(anglerPowerUpButton);
-        setAnglerPowerUp.whileHeld(new SetAnglerPower(.1));
+        setAnglerPowerUp.whileHeld(new SetAnglerPower(.25));
+        setAnglerPowerUp.whenPressed(new SetAnglerPower(0));
         
         setAnglerPowerDown = driverPad.createButton(anglerPowerDownButton);
-        setAnglerPowerDown.whileHeld(new SetAnglerPower(-.1));
+        setAnglerPowerDown.whenPressed(new SetAnglerPower(-.25));
+        setAnglerPowerDown.whenReleased(new SetAnglerPower(0));
         
         incrementShooterSpeed = driverPad.createButton(incrementShooterSpeedButton);
         incrementShooterSpeed.whenPressed(new IncrementShooterSpeed(.1));

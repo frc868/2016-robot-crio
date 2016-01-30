@@ -6,29 +6,21 @@
 package com.techhounds.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-/*
-Information from RobotKnowledge.txt
-Shooter:
- - Angling System
-   - 2 Limit switches
-   - 1 Encoder
-*/
 
 /**
  *
- * @author Komodo
+ * @author 2014 System
  */
-public class ShooterAnglerSubsystem extends AngleAdjuster {
+public class CollectorAnglerSubsystem extends AngleAdjuster {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     
-
-    public ShooterAnglerSubsystem(SpeedController s, DigitalInput f, DigitalInput r) {
-        super(s, f, r);
+    public CollectorAnglerSubsystem(SpeedController s, DigitalInput f, DigitalInput r){
+        super(s,f,r);
     }
+
+    
 }

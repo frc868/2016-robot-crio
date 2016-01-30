@@ -67,6 +67,10 @@ public class RobotParts {
         }
         return shooterAngler;
     }
+    public CollectorAnglerSubsystem getCollectorAngler(){
+        return null;
+    }
+    
     public ShooterSubsystem getShooter(){
         if(shooter == null){
             
@@ -74,12 +78,7 @@ public class RobotParts {
         }
         return shooter;
     }
-    public AngleAdjuster getAngler(){
-        if(angler == null){
-            angler = new AngleAdjuster(createSpeedController("Angler", "Angle Motor", PWM_ANGLER_MOTOR));
-        }
-        return angler;
-    }
+    
     
     public DriveSubsystem getDrive() {
         if (drive == null) {
