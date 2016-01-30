@@ -8,16 +8,14 @@ package com.techhounds.robot.commands;
 import com.techhounds.robot.subsystems.CollectorSubsystem;
 import com.techhounds.robot.subsystems.RobotParts;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  * @author 2014 System
  */
-public class SetCollectorPower extends Command {
+public class ZeroCollectorPower extends Command {
     CollectorSubsystem collector;
-    
-    public SetCollectorPower() {
+    public ZeroCollectorPower() {
         collector = RobotParts.getInstance().getCollector();
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -25,7 +23,7 @@ public class SetCollectorPower extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        collector.set(SmartDashboard.getNumber("Collector Power"));
+        collector.set(0);
     }
 
     // Called repeatedly when this Command is scheduled to run
