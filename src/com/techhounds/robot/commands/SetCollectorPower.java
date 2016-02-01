@@ -5,29 +5,27 @@
  */
 package com.techhounds.robot.commands;
 
+import com.techhounds.robot.subsystems.CollectorSubsystem;
 import com.techhounds.robot.subsystems.RobotParts;
-import com.techhounds.robot.subsystems.ShooterAnglerSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
- * @author Komodo
+ * @author 2014 System
  */
-public class ZeroAngler extends Command {
+public class SetCollectorPower extends Command {
+    CollectorSubsystem collector;
     
-    ShooterAnglerSubsystem shooterAngler;
-    RobotParts robotParts;
-    public ZeroAngler() {
+    public SetCollectorPower() {
+        collector = RobotParts.getInstance().getCollector();
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(shooterAngler);
-        robotParts = RobotParts.getInstance();
-        shooterAngler = robotParts.getShooterAngler();
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        shooterAngler.set(0.15);
+        collector.set(SmartDashboard.getNumber("Collector Power"));
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -36,7 +34,7 @@ public class ZeroAngler extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return shooterAngler.checkRevLimitSwitch();
+        return true;
     }
 
     // Called once after isFinished returns true

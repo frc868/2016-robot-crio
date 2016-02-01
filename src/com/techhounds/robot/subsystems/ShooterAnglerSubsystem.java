@@ -23,52 +23,12 @@ Shooter:
  *
  * @author Komodo
  */
-public class ShooterAnglerSubsystem extends Subsystem {
+public class ShooterAnglerSubsystem extends AngleAdjustSubsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     
-    private ShooterAnglerSubsystem shooterAngler;
-    final private SpeedController spark;
-    final private DigitalInput fwdLimitSwitch;
-    final private DigitalInput revLimitSwitch;
-    
-    public ShooterAnglerSubsystem(SpeedController s, DigitalInput f, DigitalInput r) {
-        spark = s;
-        fwdLimitSwitch = f;
-        revLimitSwitch = r;
-    }
-    
-    public double get() {
-        return spark.get();
-    }
-    
-    public void safetyCheck() {
-        if(checkFwdLimitSwitch() && get() > 0) set(0);
-        if(checkRevLimitSwitch() && get() < 0) set(0);
-    }
-    
-    public void set(double power) {
-        //checks for limit switch input and moderates output appropriately
-        if(checkFwdLimitSwitch() && power > 0) power = 0;
-        if(checkRevLimitSwitch() && power < 0) power = 0;
-        spark.set(power);
-    }
-    
-    public boolean checkFwdLimitSwitch() {
-        return fwdLimitSwitch.get();
-    }
-    
-    public boolean checkRevLimitSwitch() {
-        return revLimitSwitch.get();
-    }
-    
-    public void updateSmartDashboard() {
-        safetyCheck();
-        SmartDashboard.putNumber("Spark.get()", get());
-    }
 
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+    public ShooterAnglerSubsystem(SpeedController s, DigitalInput f, DigitalInput r) {
+        super(s, f, r);
     }
 }

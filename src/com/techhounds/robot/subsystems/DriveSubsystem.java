@@ -11,12 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveSubsystem extends Subsystem {
 
-    private final SpeedController left0;
-    private final SpeedController left1;
-    private final SpeedController left2;
-    private final SpeedController right0;
-    private final SpeedController right1;
-    private final SpeedController right2;
+    private final SpeedController left0, left1, left2, right0, right1,right2;
     
     /** Set to true if left motors wired in reverse. */
     private static final boolean LEFT_INVERTED = false;
@@ -49,6 +44,10 @@ public class DriveSubsystem extends Subsystem {
         right0.set(right);
         right1.set(right);
         right2.set(right);
+    }
+    
+    public void updateSmartDashboard() {
+        
     }
 
     // Put methods for controlling this subsystem

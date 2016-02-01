@@ -23,6 +23,7 @@ public class RobotParts {
     // PWM allocation
     //
     
+    /* Drive Subsystem Information */
     private static final int PWM_RIGHT_MOTOR0 = 1;
     private static final int PWM_RIGHT_MOTOR1 = 2;
     private static final int PWM_RIGHT_MOTOR2 = 6;
@@ -30,43 +31,88 @@ public class RobotParts {
     private static final int PWM_LEFT_MOTOR1 = 4;
     private static final int PWM_LEFT_MOTOR2 = 5;
     
+    /* Shooter Information */
     private static final int PWM_SHOOTER_MOTOR = 10;
     
-    private static final int PWM_ANGLER_MOTOR = -1;
-    
-    private static final int PWM_SHOOTER_ANGLER_MOTOR = -1;
+    /* Shooter Angler Information */
+    private static final int PWM_SHOOTER_ANGLER_MOTOR = 9;
     private static final boolean SHOOTER_ANGLER_IS_FLIPPED = false;
-    private static final int FWD_LIMIT_SWITCH = -1;
-    private static final int REV_LIMIT_SWITCH = -1;
+    private static final int SHOOTER_FWD_LIMIT = -1;
+    private static final int SHOOTER_REV_LIMIT = -1;
     
+    /* Collector Angler Information */
+    private static final int PWM_COLLECTOR_ANGLER_MOTOR = -1;
+    private static final boolean COLLECTOR_ANGLER_IS_FLIPPED = false;
+    private static final int COLLECTOR_FWD_LIMIT = -1;
+    private static final int COLLECTOR_REV_LIMIT = -1;
+    
+    /* Robot Parts! */
     private static RobotParts instance;
+    
+    /* Our Subsystems */
     private DriveSubsystem drive;
     private ShooterSubsystem shooter;
     private ShooterAnglerSubsystem shooterAngler;
-    private AngleAdjuster angler;
+    private CollectorAnglerSubsystem collectorAngler;
+    private CollectorSubsystem collector;
     
+    /**  Setup Subsystems */
     private RobotParts() {
+        instance.getCollectorAngler();
+        instance.getDrive();
+        instance.getShooterAngler();
+        instance.getShooter();
     }
     
+    /** Get Instance */
     public static RobotParts getInstance() {
         if (instance == null) {
             instance = new RobotParts();
         }
         return instance;
     }
+    
     public ShooterAnglerSubsystem getShooterAngler() {
         if(shooterAngler == null){
-            DigitalInput f = new DigitalInput(FWD_LIMIT_SWITCH);
-            DigitalInput r = new DigitalInput(REV_LIMIT_SWITCH);
+            //DigitalInput f = new DigitalInput(FWD_LIMIT_SWITCH);
+            //DigitalInput r = new DigitalInput(REV_LIMIT_SWITCH);
             Spark spark = new Spark(PWM_SHOOTER_ANGLER_MOTOR);
             InvertableSpeedController s = new InvertableSpeedController(spark, SHOOTER_ANGLER_IS_FLIPPED);
-            shooterAngler = new ShooterAnglerSubsystem(s, f, r);
-            LiveWindow.addSensor("ShooterAnglerSubsystem", "ReverseLimit", r);
-            LiveWindow.addSensor("ShooterAnglerSubsystem", "ForwardLimit", f);
+            shooterAngler = new ShooterAnglerSubsystem(s, null, null);
+           // LiveWindow.addSensor("ShooterAnglerSubsystem", "ReverseLimit", r);
+           // LiveWindow.addSensor("ShooterAnglerSubsystem", "ForwardLimit", f);
             LiveWindow.addSensor("ShooterAnglerSubsystem", "SpeedController", spark);
         }
         return shooterAngler;
     }
+    
+    public CollectorSubsystem getCollector(){
+        if(collector == null){
+           // Spark spark = new Spark(PWM_COLLECTOR_MOTOR);
+            /*Finish this later
+            
+            */
+            
+            /*caleb smith.1 is dumb
+            And calvin can't spell*/
+            
+        }
+        return collector;
+    }
+    
+    public CollectorAnglerSubsystem getCollectorAngler(){
+        if(collectorAngler == null) {
+            Spark spark = new Spark(PWM_COLLECTOR_ANGLER_MOTOR);
+            
+            InvertableSpeedController speedController = new InvertableSpeedController(spark , COLLECTOR_ANGLER_IS_FLIPPED);
+            
+            collectorAngler = new CollectorAnglerSubsystem(speedController, null, null);
+            LiveWindow.addSensor("CollectorAnglerSubsystem", "SpeedController", spark);
+        }
+        
+        return collectorAngler;
+    }
+    
     public ShooterSubsystem getShooter(){
         if(shooter == null){
             
@@ -74,13 +120,7 @@ public class RobotParts {
         }
         return shooter;
     }
-    public AngleAdjuster getAngler(){
-        if(angler == null){
-            angler = new AngleAdjuster(createSpeedController("Angler", "Angle Motor", PWM_ANGLER_MOTOR));
-        }
-        return angler;
-    }
-    
+   
     public DriveSubsystem getDrive() {
         if (drive == null) {
             String group = "Drive";
@@ -95,15 +135,18 @@ public class RobotParts {
         }
         return drive;
     }
+    public void updateSmartDashboard() {
+        this.getCollectorAngler().updateSmartDashboard();
+        this.getDrive().updateSmartDashboard();
+        this.getShooter().updateSmartDashboard();
+        this.getShooterAngler().updateSmartDashboard();
+    }
 
     private SpeedController createSpeedController(String group, String name, int pwm) {
         Spark sc = new Spark(pwm);
         LiveWindow.addActuator(group, name, sc);
         return sc;
     }
-    
-    
-    
     
     private SpeedController createVictor(String group, String name, int pwm) {
         Victor sc = new Victor(pwm);
