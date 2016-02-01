@@ -28,9 +28,9 @@ public class ShooterAnglerSubsystem extends Subsystem {
     // here. Call these from Commands.
     
     private ShooterAnglerSubsystem shooterAngler;
-    private SpeedController spark;
-    private DigitalInput fwdLimitSwitch;
-    private DigitalInput revLimitSwitch;
+    final private SpeedController spark;
+    final private DigitalInput fwdLimitSwitch;
+    final private DigitalInput revLimitSwitch;
     
     public ShooterAnglerSubsystem(SpeedController s, DigitalInput f, DigitalInput r) {
         spark = s;
