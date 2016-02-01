@@ -54,6 +54,7 @@ public class RobotParts {
     private ShooterSubsystem shooter;
     private ShooterAnglerSubsystem shooterAngler;
     private CollectorAnglerSubsystem collectorAngler;
+    private CollectorSubsystem collector;
     
     /**  Setup Subsystems */
     private RobotParts() {
@@ -83,6 +84,20 @@ public class RobotParts {
             LiveWindow.addSensor("ShooterAnglerSubsystem", "SpeedController", spark);
         }
         return shooterAngler;
+    }
+    
+    public CollectorSubsystem getCollector(){
+        if(collector == null){
+           // Spark spark = new Spark(PWM_COLLECTOR_MOTOR);
+            /*Finish this later
+            
+            */
+            
+            /*caleb smith.1 is dumb
+            And calvin can't spell*/
+            
+        }
+        return collector;
     }
     
     public CollectorAnglerSubsystem getCollectorAngler(){
