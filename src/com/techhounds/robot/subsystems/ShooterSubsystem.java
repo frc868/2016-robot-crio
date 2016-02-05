@@ -23,7 +23,7 @@ public class ShooterSubsystem extends Subsystem {
     
     private final PIDController shooterPID;
     
-    private final boolean INVERTED = false;
+    private final boolean INVERTED = true;
     
     private final double shooterPID_P = 0;
     private final double shooterPID_I = 0;

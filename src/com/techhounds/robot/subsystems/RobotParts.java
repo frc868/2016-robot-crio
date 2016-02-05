@@ -35,13 +35,15 @@ public class RobotParts {
     private static final int PWM_SHOOTER_MOTOR = 10;
     
     /* Shooter Angler Information */
-    private static final int PWM_SHOOTER_ANGLER_MOTOR = 9;
+    private static final int PWM_SHOOTER_ANGLER_MOTOR = 8;
     private static final boolean SHOOTER_ANGLER_IS_FLIPPED = false;
     private static final int SHOOTER_FWD_LIMIT = -1;
     private static final int SHOOTER_REV_LIMIT = -1;
     
+    
+    public static final int PWM_COLLECTOR_MOTOR = 9;
     /* Collector Angler Information */
-    private static final int PWM_COLLECTOR_ANGLER_MOTOR = -1;
+    private static final int PWM_COLLECTOR_ANGLER_MOTOR = 8;
     private static final boolean COLLECTOR_ANGLER_IS_FLIPPED = false;
     private static final int COLLECTOR_FWD_LIMIT = -1;
     private static final int COLLECTOR_REV_LIMIT = -1;
@@ -58,10 +60,7 @@ public class RobotParts {
     
     /**  Setup Subsystems */
     private RobotParts() {
-        instance.getCollectorAngler();
-        instance.getDrive();
-        instance.getShooterAngler();
-        instance.getShooter();
+        
     }
     
     /** Get Instance */
@@ -69,6 +68,8 @@ public class RobotParts {
         if (instance == null) {
             instance = new RobotParts();
         }
+        
+        instance.getDrive();
         return instance;
     }
     
@@ -88,7 +89,9 @@ public class RobotParts {
     
     public CollectorSubsystem getCollector(){
         if(collector == null){
-           // Spark spark = new Spark(PWM_COLLECTOR_MOTOR);
+            Spark spark = new Spark(PWM_COLLECTOR_MOTOR);
+            InvertableSpeedController s = new InvertableSpeedController(spark, SHOOTER_ANGLER_IS_FLIPPED);
+            collector = new CollectorSubsystem(s);
             /*Finish this later
             
             */
@@ -137,7 +140,7 @@ public class RobotParts {
     }
     public void updateSmartDashboard() {
         this.getCollectorAngler().updateSmartDashboard();
-        this.getDrive().updateSmartDashboard();
+        //this.getDrive().updateSmartDashboard();
         this.getShooter().updateSmartDashboard();
         this.getShooterAngler().updateSmartDashboard();
     }

@@ -33,9 +33,10 @@ public class RobotTemplate extends IterativeRobot {
     public void robotInit() {
         // instantiate the command used for the autonomous period
         autonomousCommand = new WaitCommand(5.0);
-        OI.getInstance();
         // Initialize subsystems
         RobotParts.getInstance();
+        
+        OI.getInstance();
         
         // Initialize operator controls
         

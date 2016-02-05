@@ -4,6 +4,7 @@ package com.techhounds.robot;
 import com.techhounds.robot.commands.DriveDashboard;
 import com.techhounds.robot.commands.IncrementShooterSpeed;
 import com.techhounds.robot.commands.SetAnglerPower;
+import com.techhounds.robot.commands.SetCollectorPower;
 import com.techhounds.robot.commands.SetShooterPower;
 import com.techhounds.robot.subsystems.RobotParts;
 import edu.wpi.first.wpilibj.Joystick;
@@ -31,13 +32,18 @@ public class OI {
     Button opShooterSpeedZero;          int opShooterSpeedZeroButton = ControllerMap.RT;
     
     Button opShooterSetSpeed;           int opShooterSetSpeedButton = ControllerMap.RB;
-    Button opShooterAngleZero;          int opShooterAngleZeroButton = ControllerMap.LB;
+    Button opShooterAngleZero;          int opShooterAngleZeroButton = ControllerMap.START;
     
+    Button opCollectorIn;               int opCollectorInButton = ControllerMap.LT;
+    Button opCollectorOut;              int opCollectorOutButton = ControllerMap.LB;
+   
+    
+    Joystick operator;
     private OI() {
-//        operator = new Joystick(2);
+        //operator = new Joystick(2);
 
-        driverPad = new ControllerMap(new Joystick(1), 0, false);
-        operatorPad = new ControllerMap(new Joystick(2), 0, false);
+        driverPad = new ControllerMap(new Joystick(1), ControllerMap.LOGITECH);
+        operatorPad = new ControllerMap(new Joystick(2), ControllerMap.LOGITECH);
         
         initSmartDashboard();
         initDriver();
@@ -57,28 +63,36 @@ public class OI {
     public void initOperator(){
         // TODO: Add Operator Controls
         
-        opShooterAngleZero = operatorPad.createButton(opShooterAngleZeroButton);
+        opShooterAngleZero = driverPad.createButton(opShooterAngleZeroButton);
         opShooterAngleZero.whenPressed(new SetAnglerPower(0));
 
-        opAnglerPowUp = operatorPad.createButton(opAnglerPowUpButton);
-        opAnglerPowUp.whileHeld(new SetAnglerPower(.25));
-        opAnglerPowUp.whenPressed(new SetAnglerPower(0));
+        opAnglerPowUp = driverPad.createButton(opAnglerPowUpButton);
+        opAnglerPowUp.whenPressed(new SetAnglerPower(.75));
+        opAnglerPowUp.whenReleased(new SetAnglerPower(0));
         
-        opAnglerPowDown = operatorPad.createButton(opAnglerPowDownButton);
+        opAnglerPowDown = driverPad.createButton(opAnglerPowDownButton);
         opAnglerPowDown.whenPressed(new SetAnglerPower(-.25));
         opAnglerPowDown.whenReleased(new SetAnglerPower(0));
         
-        opShooterSpeedIncrement = operatorPad.createButton(opShooterSpeedIncrementButton);
+        opShooterSpeedIncrement = driverPad.createButton(opShooterSpeedIncrementButton);
         opShooterSpeedIncrement.whenPressed(new IncrementShooterSpeed(.1));
         
-        opShooterSpeedZero = operatorPad.createButton(opShooterSpeedZeroButton);
+        opShooterSpeedZero = driverPad.createButton(opShooterSpeedZeroButton);
         opShooterSpeedZero.whenPressed(new SetShooterPower(0));
         
-        opShooterSpeedDecrement = operatorPad.createButton(opShooterSpeedDecrementButton);
-        opShooterSpeedDecrement.whenPressed(new IncrementShooterSpeed(.1));
+        opShooterSpeedDecrement = driverPad.createButton(opShooterSpeedDecrementButton);
+        opShooterSpeedDecrement.whenPressed(new IncrementShooterSpeed(-.1));
         
-        opShooterSetSpeed = operatorPad.createButton(opShooterSetSpeedButton);
+        opShooterSetSpeed = driverPad.createButton(opShooterSetSpeedButton);
         opShooterSetSpeed.whenPressed(new SetShooterPower(.5));
+        
+        opCollectorIn = driverPad.createButton(opCollectorInButton);
+        opCollectorIn.whenPressed(new SetCollectorPower(1));
+        opCollectorIn.whenReleased(new SetCollectorPower(0));
+        
+        opCollectorOut = driverPad.createButton(opCollectorOutButton);
+        opCollectorOut.whenPressed(new SetCollectorPower(-1));
+        opCollectorOut.whenReleased(new SetCollectorPower(0));
     }
     
     public void initSmartDashboard() {
@@ -108,14 +122,14 @@ public class OI {
     }
     
     public double getArcadeLeftPower(){
-        return rangeCheck(driverPad.getRightStickX() - driverPad.getLeftStickY());
+        //return rangeCheck(driverPad.getRightStickX() - driverPad.getLeftStickY());
+        return rangeCheck(-getPower(driverPad.joystick,2) + getPower(driverPad.joystick,3));      
                 
-        //        -getPower(operator,2) + getPower(operator,3));
     }
     
     public double getArcadeRightPower(){
-        return rangeCheck(-driverPad.getRightStickX() - driverPad.getLeftStickY());
-        //return rangeCheck(-getPower(operator,2) - getPower(operator,3));
+        //return rangeCheck(-driverPad.getRightStickX() - driverPad.getLeftStickY());
+        return rangeCheck(-getPower(driverPad.joystick,2) - getPower(driverPad.joystick,3));
     }
     
     public double rangeCheck(double power){
@@ -128,18 +142,18 @@ public class OI {
         }
     }
 
-//    private double getPower(Joystick source, int axis) {
-//        double p = source.getRawAxis(axis);
-//        final double minMove = 0.05;
-//        if (Math.abs(p) < minMove) {
-//            return 0;
-//        }
-//        
-//        // Subtract out dead zone hole
-//        p = (p < 0) ? (p + minMove) : (p + minMove);
-//        
-//        // Expand back to range of [-1, +1]
-//        p /= (1 - minMove);
-//        return p;
-//    }
+    private double getPower(Joystick source, int axis) {
+        double p = source.getRawAxis(axis);
+        final double minMove = 0.05;
+        if (Math.abs(p) < minMove) {
+            return 0;
+        }
+        
+        // Subtract out dead zone hole
+        p = (p < 0) ? (p + minMove) : (p + minMove);
+        
+        // Expand back to range of [-1, +1]
+        p /= (1 - minMove);
+        return p;
+    }
 }
