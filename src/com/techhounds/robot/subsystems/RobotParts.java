@@ -119,7 +119,7 @@ public class RobotParts {
     public ShooterSubsystem getShooter(){
         if(shooter == null){
             
-            shooter = new ShooterSubsystem(createSpeedController("Shooter", "Shooter Motor", PWM_SHOOTER_MOTOR));
+            shooter = new ShooterSubsystem(createVictor("Shooter", "Shooter Motor", PWM_SHOOTER_MOTOR));
         }
         return shooter;
     }

@@ -17,7 +17,8 @@ public class OI {
     
     public static ControllerMap driverPad;
     public static ControllerMap operatorPad;
-    
+    public static ControllerMap onePad;
+    final boolean oneJoystick = true;
     /* DRVIER CONTROLS */
     Button drShooterSetSpeed;           int drShooterSetSpeedButton = ControllerMap.RB;
     Button drShooterAngleZero;          int drShooterAngleZeroButton = ControllerMap.LB;
@@ -36,20 +37,56 @@ public class OI {
     
     Button opCollectorIn;               int opCollectorInButton = ControllerMap.LT;
     Button opCollectorOut;              int opCollectorOutButton = ControllerMap.LB;
-   
-    
-    Joystick operator;
     private OI() {
-        //operator = new Joystick(2);
-
-        driverPad = new ControllerMap(new Joystick(1), ControllerMap.LOGITECH);
-        operatorPad = new ControllerMap(new Joystick(2), ControllerMap.LOGITECH);
+        
+        
+        
         
         initSmartDashboard();
-        initDriver();
-        initOperator();
+        if(this.oneJoystick){
+            onePad = new ControllerMap(new Joystick(1), ControllerMap.LOGITECH);
+            initController();
+        }else{
+            
+            driverPad = new ControllerMap(new Joystick(1), ControllerMap.LOGITECH);
+            operatorPad = new ControllerMap(new Joystick(2), ControllerMap.LOGITECH);
+            initDriver();
+            initOperator();
+        }
     }
     
+    public void initController(){
+        opShooterAngleZero = onePad.createButton(opShooterAngleZeroButton);
+        opShooterAngleZero.whenPressed(new SetAnglerPower(0));
+
+        opAnglerPowUp = onePad.createButton(opAnglerPowUpButton);
+        opAnglerPowUp.whenPressed(new SetAnglerPower(.75));
+        opAnglerPowUp.whenReleased(new SetAnglerPower(0));
+        
+        opAnglerPowDown = onePad.createButton(opAnglerPowDownButton);
+        opAnglerPowDown.whenPressed(new SetAnglerPower(-.25));
+        opAnglerPowDown.whenReleased(new SetAnglerPower(0));
+        
+        opShooterSpeedIncrement = onePad.createButton(opShooterSpeedIncrementButton);
+        opShooterSpeedIncrement.whenPressed(new IncrementShooterSpeed(.1));
+        
+        opShooterSpeedZero = onePad.createButton(opShooterSpeedZeroButton);
+        opShooterSpeedZero.whenPressed(new SetShooterPower(0));
+        
+        opShooterSpeedDecrement = onePad.createButton(opShooterSpeedDecrementButton);
+        opShooterSpeedDecrement.whenPressed(new IncrementShooterSpeed(-.1));
+        
+        opShooterSetSpeed = onePad.createButton(opShooterSetSpeedButton);
+        opShooterSetSpeed.whenPressed(new SetShooterPower(.5));
+        
+        opCollectorIn = onePad.createButton(opCollectorInButton);
+        opCollectorIn.whenPressed(new SetCollectorPower(1));
+        opCollectorIn.whenReleased(new SetCollectorPower(0));
+        
+        opCollectorOut = onePad.createButton(opCollectorOutButton);
+        opCollectorOut.whenPressed(new SetCollectorPower(-1));
+        opCollectorOut.whenReleased(new SetCollectorPower(0));
+    }
     public void initDriver() {
         // TODO: Add Driver Controls
         
@@ -60,37 +97,38 @@ public class OI {
         drShooterAngleZero.whenPressed(new SetShooterPower(0));
     }
     
+    
     public void initOperator(){
         // TODO: Add Operator Controls
         
-        opShooterAngleZero = driverPad.createButton(opShooterAngleZeroButton);
+        opShooterAngleZero = operatorPad.createButton(opShooterAngleZeroButton);
         opShooterAngleZero.whenPressed(new SetAnglerPower(0));
 
-        opAnglerPowUp = driverPad.createButton(opAnglerPowUpButton);
+        opAnglerPowUp = operatorPad.createButton(opAnglerPowUpButton);
         opAnglerPowUp.whenPressed(new SetAnglerPower(.75));
         opAnglerPowUp.whenReleased(new SetAnglerPower(0));
         
-        opAnglerPowDown = driverPad.createButton(opAnglerPowDownButton);
+        opAnglerPowDown = operatorPad.createButton(opAnglerPowDownButton);
         opAnglerPowDown.whenPressed(new SetAnglerPower(-.25));
         opAnglerPowDown.whenReleased(new SetAnglerPower(0));
         
-        opShooterSpeedIncrement = driverPad.createButton(opShooterSpeedIncrementButton);
+        opShooterSpeedIncrement = operatorPad.createButton(opShooterSpeedIncrementButton);
         opShooterSpeedIncrement.whenPressed(new IncrementShooterSpeed(.1));
         
-        opShooterSpeedZero = driverPad.createButton(opShooterSpeedZeroButton);
+        opShooterSpeedZero = operatorPad.createButton(opShooterSpeedZeroButton);
         opShooterSpeedZero.whenPressed(new SetShooterPower(0));
         
-        opShooterSpeedDecrement = driverPad.createButton(opShooterSpeedDecrementButton);
+        opShooterSpeedDecrement = operatorPad.createButton(opShooterSpeedDecrementButton);
         opShooterSpeedDecrement.whenPressed(new IncrementShooterSpeed(-.1));
         
-        opShooterSetSpeed = driverPad.createButton(opShooterSetSpeedButton);
+        opShooterSetSpeed = operatorPad.createButton(opShooterSetSpeedButton);
         opShooterSetSpeed.whenPressed(new SetShooterPower(.5));
         
-        opCollectorIn = driverPad.createButton(opCollectorInButton);
+        opCollectorIn = operatorPad.createButton(opCollectorInButton);
         opCollectorIn.whenPressed(new SetCollectorPower(1));
         opCollectorIn.whenReleased(new SetCollectorPower(0));
         
-        opCollectorOut = driverPad.createButton(opCollectorOutButton);
+        opCollectorOut = operatorPad.createButton(opCollectorOutButton);
         opCollectorOut.whenPressed(new SetCollectorPower(-1));
         opCollectorOut.whenReleased(new SetCollectorPower(0));
     }
@@ -120,14 +158,27 @@ public class OI {
         //double power = getPower(operator, 4);
         //return -power;
     }
-    
     public double getArcadeLeftPower(){
+        if(oneJoystick){
+            return getArcadeLeftPowerFromPad(onePad);
+        }else{
+            return getArcadeLeftPowerFromPad(driverPad);
+        }
+    }
+    public double getArcadeRightPower(){
+        if(oneJoystick){
+            return getArcadeRightPowerFromPad(onePad);
+        }else{
+            return getArcadeRightPowerFromPad(driverPad);
+        }
+    }
+    public double getArcadeLeftPowerFromPad(ControllerMap driverPad){
         //return rangeCheck(driverPad.getRightStickX() - driverPad.getLeftStickY());
         return rangeCheck(-getPower(driverPad.joystick,2) + getPower(driverPad.joystick,3));      
                 
     }
     
-    public double getArcadeRightPower(){
+    public double getArcadeRightPowerFromPad(ControllerMap driverPad){
         //return rangeCheck(-driverPad.getRightStickX() - driverPad.getLeftStickY());
         return rangeCheck(-getPower(driverPad.joystick,2) - getPower(driverPad.joystick,3));
     }
