@@ -5,6 +5,7 @@ import com.techhounds.robot.commands.DriveGamePadArcade;
 import com.techhounds.robot.commands.DriveGamePadTank;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Simple "tank" style drive system with pairs of motors driving each side of the robot.
@@ -55,6 +56,11 @@ public class DriveSubsystem extends Subsystem {
     // here. Call these from Commands.
 
     public void initDefaultCommand() {
-       setDefaultCommand(new DriveGamePadArcade());
+       if(SmartDashboard.getBoolean("Tank Drive")){
+           setDefaultCommand(new DriveGamePadTank());
+       }else{
+           setDefaultCommand(new DriveGamePadArcade());
+       }
+        
     }
 }

@@ -134,6 +134,7 @@ public class OI {
     }
     
     public void initSmartDashboard() {
+        SmartDashboard.putBoolean("Tank Drive", false);
         SmartDashboard.putNumber("Shooter Speed", RobotParts.getInstance().getShooter().getPower());
 //        SmartDashboard.putData(new DriveDashboard());
         SmartDashboard.putNumber("Shooter Angler Power", .4);
